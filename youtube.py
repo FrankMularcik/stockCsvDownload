@@ -1,0 +1,32 @@
+import wget
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import os
+
+os.chdir(r'C:\Users\mular')
+
+#open chrome but don't show the window
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+browser = webdriver.Chrome(chrome_options = chrome_options)
+url = "https://www.youtube.com/c/FrankMularcik/videos"
+
+browser.get(url)
+
+#find the first video title
+video = browser.find_element_by_xpath("//a[@id='video-title']")
+title = str(video.text)
+
+#click the video and capture the url
+video.click()
+vidurl = browser.current_url
+
+#get thumbnail url and download it
+thumbpath = browser.find_element_by_xpath("//ytd-grid-video-renderer//img[@id='img']")
+thumb = thumbpath.get_attribute('src')
+thumbnail = wget.download(thumb)
+
+#close browser
+browser.quit()
+
+
