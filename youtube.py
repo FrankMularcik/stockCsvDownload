@@ -19,12 +19,11 @@ title = str(video.text)
 
 #click the video and capture the url
 video.click()
-vidurl = browser.current_url
+vidurl = str(browser.current_url)
 
 #get thumbnail url and download it
-thumbpath = browser.find_element_by_xpath("//ytd-grid-video-renderer//img[@id='img']")
-thumb = thumbpath.get_attribute('src')
-thumbnail = wget.download(thumb)
+thumb_url = vidurl.split('=')
+thumbnail = wget.download('https://i.ytimg.com/vi/' + thumb_url[1] + '/maxresdefault.jpg')
 
 #close browser
 browser.quit()
